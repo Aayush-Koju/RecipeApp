@@ -16,7 +16,7 @@ export default function HeroSection() {
             Discover 1000+ recipes in your hand with the best recipe app. Help
             you to find the easiest way to cook.
           </p>
-          <button className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3 rounded-lg text-lg">
+          <button className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3 rounded-lg text-lg cursor-pointer">
             Explore Recipes
           </button>
         </div>
