@@ -32,6 +32,7 @@ export default function PopularRecipes() {
           {recipes.slice(0, 6).map((recipe) => (
             <RecipeCard
               key={recipe.idMeal}
+              id={recipe.idMeal}
               title={recipe.strMeal}
               description={recipe.strInstructions}
               image={recipe.strMealThumb}

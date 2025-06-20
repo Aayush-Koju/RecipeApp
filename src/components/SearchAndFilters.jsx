@@ -1,5 +1,8 @@
-import { Search, Filter, Plus } from "lucide-react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Search, Plus } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL;
 const categories = [
   "All recipes",
   "Breakfast",
@@ -19,6 +22,31 @@ export default function SearchAndFilters({
   onCategoryChange,
   onAddRecipe,
 }) {
+  const [categories, setCategories] = useState(["All recipes"]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`${API_URL}/categories.php`);
+        const apiCategories = response.data.categories || [];
+        console.log(apiCategories);
+
+        //just taking names
+        const categoryNames = apiCategories.map((cat) => cat.strCategory);
+
+        setCategories(["All recipes", ...categoryNames]);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   return (
     <div className="space-y-6">
       {/* Search Bar and Add Recipe Button */}
@@ -34,13 +62,6 @@ export default function SearchAndFilters({
           />
         </div>
         <div className="flex space-x-3">
-          <button
-            type="button"
-            className="flex items-center space-x-2 rounded border border-gray-300 px-3 py-1 text-gray-700 hover:bg-gray-100 transition"
-          >
-            <Filter className="w-4 h-4" />
-            <span>Filters</span>
-          </button>
           <button
             type="button"
             onClick={onAddRecipe}

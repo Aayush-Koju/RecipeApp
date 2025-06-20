@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useMemo } from "react";
+import { useState, useEffect, useContext } from "react";
 import Header from "/src/components/Header";
 import SearchAndFilters from "/src/components/SearchAndFilters";
 import RecipeListCard from "/src/components/RecipeListCard";
@@ -10,6 +10,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export default function RecipesPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery);
   const [activeCategory, setActiveCategory] = useState("All recipes");
   const [currentPage, setCurrentPage] = useState(1);
   // const [filteredRecipes, setFilteredRecipes] = useState([]);
@@ -19,6 +20,15 @@ export default function RecipesPage() {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, activeCategory]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 400); // debounce delay in ms
+
+    // Cleanup
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
   //For Search Using API
   {
@@ -62,21 +72,19 @@ export default function RecipesPage() {
     console.log("Add new recipe");
   };
 
-  const filteredRecipes = useMemo(() => {
-    //prevents unnecessary rerenders, must for heavy operations
-    return recipes.filter((recipe) => {
-      const matchesCategory =
-        activeCategory === "All recipes" ||
-        recipe.strCategory === activeCategory;
-      const matchesSearch =
-        recipe.strMeal.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        recipe.strInstructions
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase());
+  const filteredRecipes = recipes.filter((recipe) => {
+    const matchesCategory =
+      activeCategory === "All recipes" || recipe.strCategory === activeCategory;
+    const matchesSearch =
+      recipe.strMeal
+        .toLowerCase()
+        .includes(debouncedSearchQuery.toLowerCase()) ||
+      recipe.strInstructions
+        .toLowerCase()
+        .includes(debouncedSearchQuery.toLowerCase());
 
-      return matchesCategory && matchesSearch;
-    });
-  }, [recipes, searchQuery, activeCategory]);
+    return matchesCategory && matchesSearch;
+  });
 
   //pagination
   const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);

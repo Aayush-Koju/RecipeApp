@@ -1,4 +1,14 @@
-export default function RecipeCard({ title, description, image, category }) {
+import { useNavigate } from "react-router-dom";
+
+export default function RecipeCard({
+  id,
+  title,
+  description,
+  image,
+  category,
+}) {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group">
       <div className="relative">
@@ -16,6 +26,15 @@ export default function RecipeCard({ title, description, image, category }) {
         <p className="text-gray-600 text-base mb-3 line-clamp-2">
           {description}
         </p>
+      </div>
+
+      <div className="p-4 w-full mx-auto flex items-center justify-center h-16">
+        <button
+          onClick={() => navigate(`/recipe/${id}`)}
+          className="w-full bg-emerald-600 text-white text-sm font-medium py-2 rounded-lg hover:bg-emerald-700 transition cursor-pointer"
+        >
+          View Details
+        </button>
       </div>
     </div>
   );
