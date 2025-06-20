@@ -1,4 +1,6 @@
 import React from "react";
+import heroImage1 from "/src/assets/images/hero-section-food-1.png";
+import heroImage2 from "/src/assets/images/hero-section-food-2.png";
 
 export default function HeroSection() {
   return (
@@ -21,7 +23,30 @@ export default function HeroSection() {
           </button>
         </div>
 
-        <div className="relative"></div>
+        <div className="relative flex justify-center items-center">
+          <div className="relative">
+            {/* Top right food image */}
+            <div className="absolute -top-8 right-0 w-48 h-48 xl:w-64 xl:h-64 2xl:w-72 2xl:h-72">
+              <img
+                src={heroImage1}
+                alt="Delicious roasted chicken with vegetables"
+                className="w-full h-full object-cover rounded-full shadow-xl"
+              />
+            </div>
+
+            {/* Bottom left food image */}
+            <div className="absolute top-16 -left-8 w-40 h-40 xl:w-56 xl:h-56 2xl:w-64 2xl:h-64">
+              <img
+                src={heroImage2}
+                alt="Healthy chicken and avocado bowl"
+                className="w-full h-full object-cover rounded-full shadow-xl"
+              />
+            </div>
+
+            {/* Spacer to maintain layout */}
+            <div className="w-64 h-64 xl:w-80 xl:h-80 2xl:w-96 2xl:h-96"></div>
+          </div>
+        </div>
       </div>
     </section>
   );

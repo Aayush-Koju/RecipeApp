@@ -27,9 +27,7 @@ export default function PopularRecipes() {
               Our most popular recipes of this week
             </p>
           </div>
-          <button variant="link" className="text-emerald-600">
-            See all
-          </button>
+          <button className="text-emerald-600">See all</button>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">

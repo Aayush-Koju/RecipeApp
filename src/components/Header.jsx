@@ -1,4 +1,5 @@
 import { ChefHat } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
@@ -10,15 +11,36 @@ export default function Header() {
         </div>
 
         <nav className="hidden md:flex items-center space-x-8 text-lg">
-          <a href="#" className="hover:text-emerald-200">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "text-white font-semibold underline"
+                : "hover:text-emerald-200"
+            }
+          >
             Home
-          </a>
-          <a href="#" className="hover:text-emerald-200">
+          </NavLink>
+          <NavLink
+            to="/recipes"
+            className={({ isActive }) =>
+              isActive
+                ? "text-white font-semibold underline"
+                : "hover:text-emerald-200"
+            }
+          >
             Recipes
-          </a>
-          <a href="#" className="hover:text-emerald-200">
+          </NavLink>
+          <NavLink
+            to="/manage"
+            className={({ isActive }) =>
+              isActive
+                ? "text-white font-semibold underline"
+                : "hover:text-emerald-200"
+            }
+          >
             Manage
-          </a>
+          </NavLink>
         </nav>
       </div>
     </header>
