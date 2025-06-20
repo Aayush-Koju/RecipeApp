@@ -12,7 +12,7 @@ export default function RecipeListCard({
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group">
       <div className="relative">
-        <div className={`h-48 ${image} bg-cover bg-center`}></div>
+        <img src={image} alt={title} className="w-full h-64 object-cover" />
         <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <div className="flex space-x-2">
             <button

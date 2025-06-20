@@ -44,7 +44,7 @@ export default function SearchAndFilters({
           <button
             type="button"
             onClick={onAddRecipe}
-            className="flex items-center space-x-2 rounded bg-emerald-600 px-3 py-1 text-white hover:bg-emerald-700 transition"
+            className="flex items-center space-x-2 rounded bg-emerald-600 px-3 py-1 text-white hover:bg-emerald-700 transition cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Add Recipe</span>
