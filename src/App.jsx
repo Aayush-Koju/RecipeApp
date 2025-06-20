@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RecipesPage from "./pages/RecipePage";
 import { RecipeProvider } from "./context/RecipeContext";
 import RecipeDetail from "./pages/RecipeDetail";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/recipes" element={<RecipesPage />} />
           <Route path="/recipe/:id" element={<RecipeDetail />} />
-          {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </RecipeProvider>

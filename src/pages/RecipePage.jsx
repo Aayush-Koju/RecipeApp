@@ -3,6 +3,7 @@ import Header from "/src/components/Header";
 import SearchAndFilters from "/src/components/SearchAndFilters";
 import RecipeListCard from "/src/components/RecipeListCard";
 import Pagination from "/src/components/Pagination";
+import AddRecipeModal from "/src/components/AddRecipeModal";
 import { RecipeContext } from "../context/RecipeContext";
 // import axios from "axios";
 
@@ -13,9 +14,13 @@ export default function RecipesPage() {
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery);
   const [activeCategory, setActiveCategory] = useState("All recipes");
   const [currentPage, setCurrentPage] = useState(1);
-  // const [filteredRecipes, setFilteredRecipes] = useState([]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingRecipeId, setEditingRecipeId] = useState(null);
+
   const recipesPerPage = 9;
-  const { recipes } = useContext(RecipeContext);
+  const { recipes, localRecipes, deleteRecipe } = useContext(RecipeContext);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -61,25 +66,42 @@ export default function RecipesPage() {
   }
 
   const handleEditRecipe = (id) => {
-    console.log("Edit recipe:", id);
+    setIsEditing(true);
+    setEditingRecipeId(id);
+    setIsModalOpen(true);
   };
 
   const handleDeleteRecipe = (id) => {
-    console.log("Delete recipe:", id);
+    if (window.confirm("Are you sure you want to delete this recipe?")) {
+      deleteRecipe(id);
+    }
   };
 
   const handleAddRecipe = () => {
-    console.log("Add new recipe");
+    setIsEditing(false);
+    setEditingRecipeId(null);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setIsEditing(false);
+    setEditingRecipeId(null);
   };
 
   const filteredRecipes = recipes.filter((recipe) => {
     const matchesCategory =
-      activeCategory === "All recipes" || recipe.strCategory === activeCategory;
+      activeCategory === "All recipes" ||
+      recipe.strCategory === activeCategory ||
+      recipe.category === activeCategory;
+
+    const recipeName = recipe.strMeal || recipe.name || "";
+    const recipeInstructions =
+      recipe.strInstructions || recipe.procedures?.join(" ") || "";
+
     const matchesSearch =
-      recipe.strMeal
-        .toLowerCase()
-        .includes(debouncedSearchQuery.toLowerCase()) ||
-      recipe.strInstructions
+      recipeName.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+      recipeInstructions
         .toLowerCase()
         .includes(debouncedSearchQuery.toLowerCase());
 
@@ -113,7 +135,6 @@ export default function RecipesPage() {
             </p>
           </div>
 
-          {/* Search and Filters */}
           <SearchAndFilters
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
@@ -134,7 +155,6 @@ export default function RecipesPage() {
             </p>
           </div>
 
-          {/* Recipe Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {paginatedRecipes.map((recipe) => (
               <RecipeListCard
@@ -150,14 +170,12 @@ export default function RecipesPage() {
             ))}
           </div>
 
-          {/* Pagination */}
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
           />
 
-          {/* Empty State */}
           {paginatedRecipes.length === 0 && filteredRecipes.length === 0 && (
             <div className="text-center py-12">
               <div className="text-gray-400 mb-4">
@@ -191,6 +209,45 @@ export default function RecipesPage() {
           )}
         </div>
       </main>
+
+      <AddRecipeModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        isEditing={isEditing}
+        id={editingRecipeId}
+      />
+
+      {localRecipes.length !== 0 && (
+        <section className="px-4 py-16">
+          <div className="max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto">
+            <div className="flex justify-between items-center mb-8">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-800">
+                  New Recipes
+                </h2>
+                <p className="text-gray-600 text-lg mt-2">
+                  Freshly added recipes
+                </p>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {localRecipes.map((recipe) => (
+                <RecipeListCard
+                  key={recipe.idMeal}
+                  id={recipe.idMeal}
+                  title={recipe.strMeal}
+                  description={recipe.strInstructions}
+                  image={recipe.strMealThumb}
+                  category={recipe.strCategory}
+                  onEdit={handleEditRecipe}
+                  onDelete={handleDeleteRecipe}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

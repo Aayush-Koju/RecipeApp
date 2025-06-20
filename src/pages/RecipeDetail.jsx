@@ -67,9 +67,6 @@ export default function RecipeDetail() {
               <div className="absolute top-4 left-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow">
                 {recipe.strCategory}
               </div>
-              <div className="absolute top-4 right-4 bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow">
-                {recipe.strArea}
-              </div>
             </div>
 
             {/* Instructions */}

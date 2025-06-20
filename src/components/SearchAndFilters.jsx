@@ -31,7 +31,6 @@ export default function SearchAndFilters({
       try {
         const response = await axios.get(`${API_URL}/categories.php`);
         const apiCategories = response.data.categories || [];
-        console.log(apiCategories);
 
         //just taking names
         const categoryNames = apiCategories.map((cat) => cat.strCategory);
