@@ -1,8 +1,11 @@
 import React from "react";
 import heroImage1 from "/src/assets/images/hero-section-food-1.png";
 import heroImage2 from "/src/assets/images/hero-section-food-2.png";
+import { useNavigate } from "react-router-dom";
 
 export default function HeroSection() {
+  const navigate = useNavigate();
+
   return (
     <section className="bg-emerald-700 text-white px-4 py-16 min-h-[85vh] flex items-center relative overflow-hidden">
       <div className="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto grid md:grid-cols-2 gap-8 items-center">
@@ -18,7 +21,10 @@ export default function HeroSection() {
             Discover 1000+ recipes in your hand with the best recipe app. Help
             you to find the easiest way to cook.
           </p>
-          <button className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3 rounded-lg text-lg cursor-pointer">
+          <button
+            onClick={() => navigate("/recipes")}
+            className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3 rounded-lg text-lg cursor-pointer"
+          >
             Explore Recipes
           </button>
         </div>
