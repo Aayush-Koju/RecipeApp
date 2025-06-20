@@ -34,9 +34,10 @@ export default function PopularRecipes() {
           {recipes.map((recipe, index) => (
             <RecipeCard
               key={index}
-              name={recipe.name}
-              author={recipe.author}
+              title={recipe.name}
+              description={recipe.author}
               image={recipe.image}
+              category={"new"}
             />
           ))}
         </div>
